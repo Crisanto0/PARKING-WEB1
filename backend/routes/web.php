@@ -16,4 +16,7 @@ Route::get('/db-test', function () {
     }
 });
 
-Route::get('/consultas', 'UsuarioController@index');
+use App\Http\Controllers\UsuarioController;
+
+Route::get('/consultas', [UsuarioController::class, 'mostrarUsuarios']);
+
