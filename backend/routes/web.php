@@ -15,8 +15,9 @@ Route::get('/db-test', function () {
         return "No se pudo conectar a la base de datos. Por favor, verifica tu configuración. Error:" . $e;
     }
 });
-
 use App\Http\Controllers\UsuarioController;
-
 Route::get('/consultas', [UsuarioController::class, 'mostrarUsuarios']);
+Route::post('/consultas', [UsuarioController::class, 'store']);
 
+use App\Http\Controllers\AuthController;
+Route::post('/login', 'AuthController@login');
