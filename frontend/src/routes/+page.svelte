@@ -1,31 +1,30 @@
-
 <script lang="ts">
-    import  goto from 'svelte-spa-router';
   
-    export async function login(nombre_usuario: string, contrasena: string){
-      try {
-        const response = await fetch('/api/login', {
+    import { goto } from '$app/navigation';
+    let nombre_usuario = '';
+    let contrasena = '';
+    let error = '';
+
+    async function login() {
+        const response = await fetch('http://127.0.0.1:8000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ nombre_usuario, contrasena }),
         });
-  
+
         const data = await response.json();
+
         if (response.ok) {
-            // Si las credenciales son correctas, redirige al módulo 'inicio'
-            window.location.href = '/inicio'; // Asegúrate de que '/inicio' sea la ruta correcta en tu router
+            localStorage.setItem('token', data.token);
+            goto('/inicio');
         } else {
-            // Manejar error
-            throw new Error(data.message || 'Error al iniciar sesión');
+            error = data.message;
         }
-      } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        
-      }
     }
-  </script>
+</script>
+  
   
   
   
@@ -82,9 +81,12 @@
       <div class="container">
         <h1 class="tituloinicial">Login parking web</h1>
     
-        <form action="/inicio" method="post">
-          <input type="text" name="nombre_usuario" placeholder="Nombre usuario">
-          <input type="password"  name="contrasena" placeholder="contraseña" required >
+        <form method="post" on:submit|preventDefault={login}>
+          <input type="text" name="nombre_usuario" placeholder="Nombre usuario" bind:value={nombre_usuario}>
+          <input type="password"  name="contrasena" placeholder="contraseña" required bind:value={contrasena}>
+          {#if error}
+        <p>{error}</p>
+    {/if}
           <input type="submit" class="login" value="Login">
         </form>
         <div class="link-container">

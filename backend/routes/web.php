@@ -19,5 +19,4 @@ use App\Http\Controllers\UsuarioController;
 Route::get('/consultas', [UsuarioController::class, 'mostrarUsuarios']);
 Route::post('/consultas', [UsuarioController::class, 'store']);
 
-use App\Http\Controllers\AuthController;
-Route::post('/login', 'AuthController@login');
+
