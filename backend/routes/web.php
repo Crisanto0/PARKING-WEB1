@@ -19,4 +19,8 @@ use App\Http\Controllers\UsuarioController;
 Route::get('/consultas', [UsuarioController::class, 'mostrarUsuarios']);
 Route::post('/consultas', [UsuarioController::class, 'store']);
 
+Route::get('/usuarios/{id}/editar', 'UsuarioController@edit')->name('usuarios.edit');
+Route::delete('/usuarios/{id}', 'UsuarioController@destroy')->name('usuarios.destroy');
+
+
 
